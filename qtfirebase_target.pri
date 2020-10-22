@@ -232,23 +232,46 @@ contains(DEFINES,QTFIREBASE_BUILD_ANALYTICS) {
         # -framework FirebaseCoreDiagnostics \
         # -framework GoogleDataTransport \
         #-framework GoogleDataTransportCCTSupport \
-
+    CONFIG(iphoneos, iphoneos|iphonesimulator) {
         LIBS += \
             -framework StoreKit \
             -F$$QTFIREBASE_FRAMEWORKS_ROOT/FirebaseAnalytics \
             -F$$QTFIREBASE_FRAMEWORKS_ROOT/FirebaseAnalytics/FirebaseCore.xcframework/ios-armv7_arm64 \
             -F$$QTFIREBASE_FRAMEWORKS_ROOT/FirebaseAnalytics/GoogleUtilities.xcframework/ios-armv7_arm64 \
+            -F$$QTFIREBASE_FRAMEWORKS_ROOT/FirebaseAnalytics/GoogleDataTransport.xcframework/ios-armv7_arm64 \
             -F$$QTFIREBASE_FRAMEWORKS_ROOT/FirebaseAnalytics/nanopb.xcframework/ios-armv7_arm64 \
             -F$$QTFIREBASE_FRAMEWORKS_ROOT/FirebaseAnalytics/PromisesObjC.xcframework/ios-armv7_arm64 \
             -F$$QTFIREBASE_FRAMEWORKS_ROOT/FirebaseAnalytics/FirebaseInstallations.xcframework/ios-armv7_arm64 \
             -framework FirebaseAnalytics \
             -framework FirebaseCore \                        
             -framework GoogleAppMeasurement \
+            -framework GoogleDataTransport \
             -framework GoogleUtilities \
             -framework nanopb \
             -framework PromisesObjC \
             -framework FirebaseInstallations \
             \
+    }
+    CONFIG(iphonesimulator, iphoneos|iphonesimulator) {
+        LIBS += \
+            -framework StoreKit \
+            -F$$QTFIREBASE_FRAMEWORKS_ROOT/FirebaseAnalytics \
+            -F$$QTFIREBASE_FRAMEWORKS_ROOT/FirebaseAnalytics/FirebaseCore.xcframework/ios-i386_x86_64-simulator \
+            -F$$QTFIREBASE_FRAMEWORKS_ROOT/FirebaseAnalytics/GoogleUtilities.xcframework/ios-i386_x86_64-simulator \
+            -F$$QTFIREBASE_FRAMEWORKS_ROOT/FirebaseAnalytics/GoogleDataTransport.xcframework/ios-i386_x86_64-simulator \
+            -F$$QTFIREBASE_FRAMEWORKS_ROOT/FirebaseAnalytics/nanopb.xcframework/ios-i386_x86_64-simulator \
+            -F$$QTFIREBASE_FRAMEWORKS_ROOT/FirebaseAnalytics/PromisesObjC.xcframework/ios-i386_x86_64-simulator \
+            -F$$QTFIREBASE_FRAMEWORKS_ROOT/FirebaseAnalytics/FirebaseInstallations.xcframework/ios-i386_x86_64-simulator \
+            -framework FirebaseAnalytics \
+            -framework FirebaseCore \
+            -framework GoogleAppMeasurement \
+            -framework GoogleDataTransport \
+            -framework GoogleUtilities \
+            -framework nanopb \
+            -framework PromisesObjC \
+            -framework FirebaseInstallations \
+            \
+    }
     }
 
     HEADERS += $$PWD/src/qtfirebaseanalytics.h
@@ -257,6 +280,30 @@ contains(DEFINES,QTFIREBASE_BUILD_ANALYTICS) {
     PRE_TARGETDEPS += $$QTFIREBASE_SDK_LIBS_PATH/lib$${QTFIREBASE_SDK_LIBS_PREFIX}analytics.a
     LIBS += -L$$QTFIREBASE_SDK_LIBS_PATH -l$${QTFIREBASE_SDK_LIBS_PREFIX}analytics
 }
+
+# Crashlytics
+contains(DEFINES, QTFIREBASE_BUILD_CRASHLYTICS) {
+    message( "QtFirebase including Crashlytics" )
+
+    ios: {
+
+    CONFIG(iphoneos, iphoneos|iphonesimulator) {
+    LIBS += \
+        -F$$QTFIREBASE_FRAMEWORKS_ROOT/FirebaseCrashlytics \
+        -F$$QTFIREBASE_FRAMEWORKS_ROOT/FirebaseCrashlytics/FirebaseCrashlytics.xcframework/ios-armv7_arm64 \
+        -framework FirebaseCrashlytics \
+        \
+    }
+    CONFIG(iphonesimulator, iphoneos|iphonesimulator){
+    LIBS += \
+        -F$$QTFIREBASE_FRAMEWORKS_ROOT/FirebaseCrashlytics \
+        -F$$QTFIREBASE_FRAMEWORKS_ROOT/FirebaseCrashlytics/FirebaseCrashlytics.xcframework/ios-i386_x86_64-simulator \
+        -framework FirebaseCrashlytics \
+        \
+    }
+    }
+}
+
 
 # Auth
 contains(DEFINES,QTFIREBASE_BUILD_AUTH) {
